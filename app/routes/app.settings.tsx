@@ -5,12 +5,35 @@ import {
   Text,
   BlockStack,
   InlineGrid,
-  Divider,
   TextField,
+  Button
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
+import { useState } from "react";
+import { Settings } from "app/constants";
+import { Form, json, useLoaderData } from "@remix-run/react";
+
+export async function loader() {
+  let settings = {
+    name: 'my App',
+    description: 'This the description'
+  }
+  return json(settings)
+}
+
+export async function action({request} : any) {
+  console.log('------------------------------------------------Hitted------------------------------------------------------');
+  let settingdata = await request.formData();
+  settingdata = Object.fromEntries(settingdata);
+  console.log('------------------------------------------------ended------------------------------------------------------',settingdata);
+
+  return json(settingdata)
+}
 
 export default function SettingsPage() {
+  const loaderData = useLoaderData<Settings>();
+  const [settings, setSettings] = useState<Settings>(loaderData);
+  
   return (
     <Page>
       <TitleBar title="Settings" />
@@ -31,10 +54,13 @@ export default function SettingsPage() {
             </BlockStack>
           </Box>
           <Card roundedAbove="sm">
-            <BlockStack gap="400">
-              <TextField label="App name" />
-              <TextField label="Descriptionm" />
-            </BlockStack>
+            <Form method="POST">
+              <BlockStack gap="400">
+                <TextField label="App name" name='name' value={settings.name} onChange={(value) => setSettings({...settings , name:value})}/>
+                <TextField label="description" name="description" value={settings.description} onChange={(value) => setSettings({...settings ,description:value })}/>
+                <Button submit={true}> Save </Button>
+              </BlockStack>
+            </Form>
           </Card>
         </InlineGrid>
       </BlockStack>

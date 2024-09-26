@@ -12,26 +12,39 @@ import { TitleBar } from "@shopify/app-bridge-react";
 import { useState } from "react";
 import { Settings } from "app/constants";
 import { Form, json, useLoaderData } from "@remix-run/react";
+import db from "../db.server"
 
 export async function loader() {
-  let settings = {
-    name: 'my App',
-    description: 'This the description'
-  }
+  let settings = await db.settings.findFirst()
+  console.log('---------------------------->',settings)
   return json(settings)
 }
 
 export async function action({request} : any) {
-  console.log('------------------------------------------------Hitted------------------------------------------------------');
   let settingdata = await request.formData();
   settingdata = Object.fromEntries(settingdata);
-  console.log('------------------------------------------------ended------------------------------------------------------',settingdata);
+
+ const res = await db.settings.upsert({
+    where : {
+      id : '1'
+    },
+    update : {
+      name : settingdata.name ,
+      description : settingdata.description
+    },
+    create : {
+      id : '1',
+      name : settingdata.name ,
+      description : settingdata.description
+    }
+  })
 
   return json(settingdata)
 }
 
 export default function SettingsPage() {
   const loaderData = useLoaderData<Settings>();
+  console.log('loaderData',loaderData);
   const [settings, setSettings] = useState<Settings>(loaderData);
   
   return (

@@ -3,7 +3,7 @@
 client_id = "95de1c3989790e12c2c9cf99df0392ab"
 name = "Wishlist"
 handle = "wishlist-556"
-application_url = "https://hours-telephone-petersburg-dom.trycloudflare.com"
+application_url = "https://accepting-loved-simpsons-more.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://hours-telephone-petersburg-dom.trycloudflare.com/auth/callback",
-  "https://hours-telephone-petersburg-dom.trycloudflare.com/auth/shopify/callback",
-  "https://hours-telephone-petersburg-dom.trycloudflare.com/api/auth/callback"
+  "https://accepting-loved-simpsons-more.trycloudflare.com/auth/callback",
+  "https://accepting-loved-simpsons-more.trycloudflare.com/auth/shopify/callback",
+  "https://accepting-loved-simpsons-more.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
